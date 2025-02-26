@@ -199,7 +199,7 @@ class _PomodoroTimerScreenState extends State<PomodoroTimerScreen> {
 // 1. 초기 버전
 // 기능: 타이머 기능 (작업 시간, 휴식 시간) 구현현
 // 문제: 4회차에 한번씩 긴 휴식 추가 하였으나 두배수로 횟수가 증가됨
-// 해결: 및 개선사항항
+// 해결 및 개선사항:
 // 1. 원래 코드에서는 'isWorking = !isWorking' 직후에 바로 'cycle++'를 실행
 //    이는 작업 시간이 끝났을 때뿐만 아니라 휴식 시간이 끝났을 때도 사이클이 증가하는 오류가 발생했습니다.
 //
