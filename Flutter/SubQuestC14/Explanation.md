@@ -48,6 +48,7 @@ SubQuestC14.dart에 모든 페이지의 코드가 통합되어있습니다.
 
 
 ## 구현영상 
+![image](https://github.com/user-attachments/assets/24c59fc5-9109-447d-bc9c-68848fee7251)
 
 https://github.com/user-attachments/assets/8a165bf2-a7b1-4cc3-b0e0-9fa9d5872c1a
 
