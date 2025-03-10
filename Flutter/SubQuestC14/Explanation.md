@@ -53,7 +53,10 @@ https://github.com/user-attachments/assets/d5e0f0a1-7a60-4c30-9cc8-70a82888081d
 
 
 ## 구현영상 
-https://github.com/rudykim2003/AIFFEL_QUEST/assets/86637005/c7f3c3ae-5a26-41ac-bfb0-9cf11bbd074b
+
+
+
+https://github.com/user-attachments/assets/8a165bf2-a7b1-4cc3-b0e0-9fa9d5872c1a
 
 
 
