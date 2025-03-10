@@ -4,7 +4,9 @@
 
 - **앱 이름** 
 
-  - Travel Market(여행 마켓)   
+  - Travel Market(여행 마켓)
+    ![image](https://github.com/user-attachments/assets/3d69e027-06e9-4e53-a6fe-054e70857901)
+
 
 - **시장(마켓)**  
 
