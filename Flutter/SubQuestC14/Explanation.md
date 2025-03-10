@@ -37,7 +37,7 @@
 
 
 
-## 프로토타이핑 (사용 툴 : 0000)
+## 프로토타이핑 (사용 툴 : 마블)
 
 https://github.com/user-attachments/assets/d5e0f0a1-7a60-4c30-9cc8-70a82888081d
 
@@ -48,7 +48,7 @@ https://github.com/user-attachments/assets/d5e0f0a1-7a60-4c30-9cc8-70a82888081d
 2. loading.dart - 로딩페이지
 3. mypage.dart - 나의페이지
 4. my_location.dart - 위치정보를 포함한 런닝 기록
-5. run_test.dart - 런냥이 테스트 페이지
+5. run_test.dart - 여행마켓 테스트 페이지
 
 
 
