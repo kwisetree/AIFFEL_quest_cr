@@ -33,7 +33,8 @@
 
 ![image](https://github.com/user-attachments/assets/7f9fdc5c-9fa0-4c0d-b8a2-ae7b604986db)
 
-![image.png](attachment:97763e26-7bbb-4257-9ac1-ff213a5de6b2:image.png)
+![image](https://github.com/user-attachments/assets/c355db33-e556-4fde-99d5-c8be27092a36)
+
 
 
 ## 프로토타이핑 (사용 툴 : 0000)
