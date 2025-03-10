@@ -44,17 +44,10 @@ https://github.com/user-attachments/assets/d5e0f0a1-7a60-4c30-9cc8-70a82888081d
 
 
 ## 페이지 구현
-1. main.dart - 메인 화면으로 기본적인 구성으로만 작성 되어 있습니다.
-2. loading.dart - 로딩페이지
-3. mypage.dart - 나의페이지
-4. my_location.dart - 위치정보를 포함한 런닝 기록
-5. run_test.dart - 여행마켓 테스트 페이지
-
+SubQuestC14.dart에 모든 페이지의 코드가 통합되어있습니다.
 
 
 ## 구현영상 
-
-
 
 https://github.com/user-attachments/assets/8a165bf2-a7b1-4cc3-b0e0-9fa9d5872c1a
 
