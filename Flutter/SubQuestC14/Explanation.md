@@ -27,11 +27,12 @@
 
 
 
-## 앱 와이어프레임 (사용 툴 : 0000)
+## 앱 와이어프레임 (사용 툴 : 손글씨 및 ppt)
 
 ![image](https://github.com/user-attachments/assets/3480670b-8c83-41fe-ad0f-08c455a05a07)
 
-![image.png](attachment:364d690c-88ec-4a40-949f-afb9101a5b11:image.png)
+![image](https://github.com/user-attachments/assets/7f9fdc5c-9fa0-4c0d-b8a2-ae7b604986db)
+
 ![image.png](attachment:97763e26-7bbb-4257-9ac1-ff213a5de6b2:image.png)
 
 
