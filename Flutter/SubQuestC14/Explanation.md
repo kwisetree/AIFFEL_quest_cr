@@ -39,7 +39,8 @@
 
 ## 프로토타이핑 (사용 툴 : 0000)
 
-https://file.notion.so/f/f/c09f8228-29c7-4dcb-8ca3-1de7d3988fab/77986570-0705-4b3d-8de8-0f5f24118e02/%EB%8B%B9%EA%B7%BC%EB%A7%88%EC%BC%93.mp4?table=block&id=1b25c8e5-427d-80db-be0c-c5c080b178b9&spaceId=c09f8228-29c7-4dcb-8ca3-1de7d3988fab&expirationTimestamp=1741651200000&signature=DOf0KbokAQoHpT_rgK5z4S-8cDkJP73gS2rs0aGzfOo&downloadName=%EB%8B%B9%EA%B7%BC%EB%A7%88%EC%BC%93.mp4
+https://github.com/user-attachments/assets/d5e0f0a1-7a60-4c30-9cc8-70a82888081d
+
 
 
 ## 페이지 구현
