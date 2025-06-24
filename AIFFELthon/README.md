@@ -87,14 +87,25 @@ GOOGLE_API_KEY=your_gemini_api_key
 **5. 데이터 수집 및 Neo4j 로드 (별도 스크립트 실행):**
 챗봇 애플리케이션 실행에 앞서, 제공될 데이터 수집, 전처리, Neo4j 로드 및 임베딩 스크립트를 실행하여 Neo4j 데이터베이스를 준비해야 합니다
 ```
-# 예시: 데이터 수집 (API 연동)
+# 1. 초기 논문 데이터 및 그래프 관계 수집
+# 키워드 및 특정 제목 기반의 초기 논문 상세 정보와 함께
+# 논문 간 인용/참고 관계 및 논문-저자 관계를 수집하여 Raw 데이터를 생성합니다.
 python data_collector.py
 
-# 예시: 수집된 데이터 전처리
+# 2. 수집된 Raw 데이터 전처리
+# Raw 데이터를 읽어 누락된 노드를 복구하고, 초록 유무, 언어(영어) 등을 기준으로
+# 논문, 저자, 엣지 데이터를 정제하여 Cleaned 파일을 생성합니다.
 python data_preprocessor.py
 
-# 예시: 전처리된 데이터를 Neo4j에 로드 및 임베딩 수행
+# 3. 전처리된 데이터를 Neo4j에 로드하고 임베딩을 수행
+# Cleaned 데이터를 Neo4j 데이터베이스로 로드하고, 논문 초록에 대한 벡터 임베딩을 생성합니다.
 python neo4j_loader.py
+
+# 4. Neo4j에 로드된 저자 정보 강화
+# Neo4j에 저장된 저자 노드에 대해 Semantic Scholar API를 통해
+# h-index, 총 인용 수 등 추가적인 상세 정보를 가져와 업데이트합니다.
+python author_enricher.py
+
 ```
 &nbsp;
 
@@ -123,12 +134,13 @@ streamlit run streamlit_app.py
 ## 📁 파일 구조
 ```
 socy-assistant-chatbot/
-├── .env                  # 환경 변수 설정 파일 (Gitignore 처리)
-├── requirements.txt      # Python 종속성 목록 (모든 라이브러리 목록)
-├── streamlit_app.py      # Streamlit 웹 애플리케이션 메인 코드 (UI 및 `socy_recommender_core.py`의 기능 활용)
-├── socy_recommender_core.py # 핵심 추천 로직 (LLM, Neo4j 연동, Context 생성 등 백엔드 기능)
-├── data_collector.py     # 논문 데이터 수집 스크립트 (API 연동, Raw Data 저장)
-├── data_preprocessor.py  # 수집된 Raw Data 전처리 스크립트
-├── neo4j_loader.py       # 전처리된 데이터를 Neo4j에 로드하고 임베딩을 수행하는 스크립트
-└── README.md             # 본 파일
+├── .env                          # 환경 변수 설정 파일 (Gitignore 처리)
+├── requirements.txt              # Python 종속성 목록 (모든 라이브러리 목록)
+├── streamlit_app.py              # Streamlit 웹 애플리케이션 메인 코드 (UI 및 `socy_recommender_core.py`의 기능 활용)
+├── socy_recommender_core.py      # 핵심 추천 로직 (LLM, Neo4j 연동, Context 생성 등 백엔드 기능)
+├── data_collector.py             # 논문 데이터 초기 수집 및 그래프 관계 수집 스크립트
+├── data_preprocessor.py          # 수집된 Raw Data 전처리 및 누락 노드 복구 스크립트
+├── neo4j_loader.py               # 전처리된 데이터를 Neo4j에 로드하고 임베딩을 수행하는 스크립트
+├── author_enricher.py            # Neo4j에 로드된 저자 정보 강화 스크립트
+└── README.md                     # 본 파일
 ```
