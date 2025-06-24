@@ -39,13 +39,16 @@ OPTIONS {nodeProperties: ['paperId', 'language', 'title', 'year', 'citationCount
 (참고: google_embedding은 Neo4j와 Gemini API 연동 설정 후 생성되는 임베딩 함수명입니다. 실제 Neo4j 설정에 따라 상이할 수 있습니다.)
 
 ### ⚙️ 설치 단계
-1. 리포지토리 클론:
+&nbsp;
+
+**1. 리포지토리 클론:**
 ```
 git clone https://github.com/your-username/socy-assistant-chatbot.git
 cd socy-assistant-chatbot
 ```
+&nbsp;
 
-2. 가상 환경 설정 및 활성화:
+**2. 가상 환경 설정 및 활성화:**
 ```
 python -m venv venv
 
@@ -56,14 +59,18 @@ python -m venv venv
 source venv/bin/activate
 ```
 
-3. 필요 라이브러리 설치:
+&nbsp;
+
+**3. 필요 라이브러리 설치:**
 
 ```
 pip install -r requirements.txt
 ```
 (프로젝트 루트에 requirements.txt 파일이 포함되어 있어야 합니다. 포함될 내용 예시: streamlit, python-dotenv, langchain-google-genai, langchain-neo4j, neo4j, pyyaml 등)
 
-4. 환경 변수 설정:
+&nbsp;
+
+**4. 환경 변수 설정:**
 프로젝트 루트 디렉토리에 .env 파일을 생성하고 다음 정보를 추가하십시오.
 ```
 NEO4J_URI=bolt://localhost:7687
@@ -76,7 +83,23 @@ GOOGLE_API_KEY=your_gemini_api_key
 - NEO4J_PASSWORD: Neo4j 데이터베이스 비밀번호
 - GOOGLE_API_KEY: Google Cloud Console에서 발급받은 Gemini API 키
 
-5. Streamlit 애플리케이션 실행:
+&nbsp;
+
+**5. 데이터 수집 및 Neo4j 로드 (별도 스크립트 실행):**
+챗봇 애플리케이션 실행에 앞서, 제공될 데이터 수집, 전처리, Neo4j 로드 및 임베딩 스크립트를 실행하여 Neo4j 데이터베이스를 준비해야 합니다
+```
+# 예시: 데이터 수집 (API 연동)
+python data_collector.py
+
+# 예시: 수집된 데이터 전처리
+python data_preprocessor.py
+
+# 예시: 전처리된 데이터를 Neo4j에 로드 및 임베딩 수행
+python neo4j_loader.py
+```
+&nbsp;
+
+**6. Streamlit 애플리케이션 실행:**
 ```
 streamlit run streamlit_app.py
 ```
@@ -103,7 +126,8 @@ streamlit run streamlit_app.py
 socy-assistant-chatbot/
 ├── .env                  # 환경 변수 설정 파일 (Gitignore 처리)
 ├── requirements.txt      # Python 종속성 목록 (모든 라이브러리 목록)
-├── streamlit_app.py      # Streamlit 웹 애플리케이션 메인 코드 (챗봇 UI 및 로직)
+├── streamlit_app.py      # Streamlit 웹 애플리케이션 메인 코드 (UI 및 `socy_recommender_core.py`의 기능 활용)
+├── socy_recommender_core.py # 핵심 추천 로직 (LLM, Neo4j 연동, Context 생성 등 백엔드 기능)
 ├── data_collector.py     # 논문 데이터 수집 스크립트 (API 연동, Raw Data 저장)
 ├── data_preprocessor.py  # 수집된 Raw Data 전처리 스크립트
 ├── neo4j_loader.py       # 전처리된 데이터를 Neo4j에 로드하고 임베딩을 수행하는 스크립트
