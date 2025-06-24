@@ -3,6 +3,7 @@ python-dotenv
 langchain-google-genai
 langchain-neo4j
 neo4j
+beautifulsoup4
 requests
 pandas
 numpy
