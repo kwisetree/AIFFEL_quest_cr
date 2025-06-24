@@ -97,3 +97,15 @@ streamlit run streamlit_app.py
 
 
 챗봇은 질의를 분석하여 관련 논문 목록과 함께 각 논문에 대한 상세 설명, 저자 정보, 저널 정보, 그리고 인용 수를 제공할 것입니다.
+
+## 📁 파일 구조
+```
+socy-assistant-chatbot/
+├── .env                  # 환경 변수 설정 파일 (Gitignore 처리)
+├── requirements.txt      # Python 종속성 목록 (모든 라이브러리 목록)
+├── streamlit_app.py      # Streamlit 웹 애플리케이션 메인 코드 (챗봇 UI 및 로직)
+├── data_collector.py     # 논문 데이터 수집 스크립트 (API 연동, Raw Data 저장)
+├── data_preprocessor.py  # 수집된 Raw Data 전처리 스크립트
+├── neo4j_loader.py       # 전처리된 데이터를 Neo4j에 로드하고 임베딩을 수행하는 스크립트
+└── README.md             # 본 파일
+```
