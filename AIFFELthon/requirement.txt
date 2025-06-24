@@ -1,0 +1,10 @@
+streamlit
+python-dotenv
+langchain-google-genai
+langchain-neo4j
+neo4j
+requests
+pandas
+numpy
+tqdm
+json_repair 
