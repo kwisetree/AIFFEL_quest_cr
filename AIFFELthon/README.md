@@ -40,7 +40,6 @@ OPTIONS {nodeProperties: ['paperId', 'language', 'title', 'year', 'citationCount
 
 ### ⚙️ 설치 단계
 &nbsp;
-
 **1. 리포지토리 클론:**
 ```
 git clone https://github.com/your-username/socy-assistant-chatbot.git
