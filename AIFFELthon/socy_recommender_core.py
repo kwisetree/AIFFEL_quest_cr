@@ -8,9 +8,24 @@ from langchain_core.output_parsers import StrOutputParser
 from neo4j import GraphDatabase
 import re
 
-# load_dotenv()는 get_chain 함수가 호출될 때 환경 변수가 필요하므로,
-# 모듈 최상단에 두어 언제든 준비되도록 하는 것이 좋습니다.
+# --- 1. 라이브러리 임포트 및 환경 변수 로드 ---
+# .env 파일에서 환경 변수를 로드합니다.
+# 다른 어떤 코드보다 먼저 실행되어야 합니다.
 load_dotenv()
+
+# 환경 변수를 미리 가져와서 변수에 저장합니다.
+# 이렇게 하면 초기화 시점에 바로 사용할 수 있으며, 누락 여부를 쉽게 확인할 수 있습니다.
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+NEO4J_URI = os.getenv("NEO4J_URI")
+NEO4J_USER = os.getenv("NEO4J_USER")
+NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD")
+
+# 중요: 환경 변수가 제대로 로드되었는지 확인하는 디버깅 코드 (문제가 해결되면 삭제하거나 주석 처리)
+if not GOOGLE_API_KEY:
+    print("경고: GOOGLE_API_KEY 환경 변수가 설정되지 않았습니다!")
+if not NEO4J_URI or not NEO4J_USER or not NEO4J_PASSWORD:
+    print("경고: NEO4J 관련 환경 변수가 완전히 설정되지 않았습니다! (URI, USER, PASSWORD 확인 필요)")
+
 
 # --- 2. Neo4j 데이터 조회 및 컨텍스트 생성 함수 ---
 # 이 함수들은 get_chain 내부에서 사용되므로 여기에 둡니다.
@@ -36,16 +51,15 @@ def get_full_paper_and_author_details(tx, paper_id):
         }
     return None
 
+
 def get_ultimate_context(question: str) -> str:
     """질문에 가장 적합한 논문들을 찾아 풍부한 컨텍스트로 가공하는 함수"""
-    
-    # 이 함수 안에서 사용할 모델과 DB 접속 정보를 초기화합니다.
-    # 이렇게 하면 get_chain()이 호출될 때만 이 객체들이 생성됩니다.
-    embedding_model = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
-    NEO4J_URI = os.getenv("NEO4J_URI")
-    NEO4J_USER = os.getenv("NEO4J_USER")
-    NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD")
-    
+
+    # 수정된 부분: embedding_model 초기화 시 GOOGLE_API_KEY 명시적 전달
+    # 이제 GOOGLE_API_KEY는 모듈 상단에서 이미 로드되어 있습니다.
+    embedding_model = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=GOOGLE_API_KEY)
+
+    # 드라이버 초기화도 이제 상위 스코프에서 가져온 변수를 사용
     driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASSWORD))
     neo4j_vector = Neo4jVector.from_existing_index(
         embedding=embedding_model,
@@ -60,9 +74,11 @@ def get_ultimate_context(question: str) -> str:
         return all(ord(c) < 128 or c.isspace() for c in text)
 
     similar_nodes = neo4j_vector.similarity_search(question, k=20)
-    filtered_nodes = [n for n in similar_nodes if 'language' not in n.metadata or n.metadata['language'] in ['en', 'ko']]
+    filtered_nodes = [n for n in similar_nodes if
+                      'language' not in n.metadata or n.metadata['language'] in ['en', 'ko']]
 
     if not filtered_nodes:
+        driver.close() # 관련 논문을 찾지 못해도 드라이버는 닫아줍니다.
         return "관련 논문을 찾을 수 없습니다."
 
     recommendations = {}
@@ -107,7 +123,6 @@ def get_ultimate_context(question: str) -> str:
         top_recs_info = []
         for paper_id, data in sorted_recs[:5]:
             details = session.execute_read(get_full_paper_and_author_details, paper_id)
-            # is_latin 조건은 그대로 유지하거나 필요에 따라 수정
             if details:
                 top_recs_info.append({'details': details, 'reasons': data['reasons']})
 
@@ -128,7 +143,7 @@ def get_ultimate_context(question: str) -> str:
                 journal_name = rec['details']['journalName']
                 reasons = rec['reasons']
                 full_context += f"""
-[추천 {i+1}] {details.get('title', 'N/A')} ({details.get('year', 'N/A')})
+[추천 {i + 1}] {details.get('title', 'N/A')} ({details.get('year', 'N/A')})
 - 저자: {authors_formatted}
 - 저널: {journal_name if journal_name else 'N/A'}
 - 인용 수: {details.get('citationCount', 0)}
@@ -138,13 +153,14 @@ def get_ultimate_context(question: str) -> str:
     driver.close()
     return full_context
 
+
 def get_chain():
     """
     Streamlit 앱에서 호출할 주 함수.
     LLM 체인을 설정하고 반환합니다.
     """
-    # 언어 모델 초기화
-    llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.3, top_k=5)
+    # 수정된 부분: llm 초기화 시 GOOGLE_API_KEY 명시적 전달
+    llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.3, top_k=5, google_api_key=GOOGLE_API_KEY)
 
     # --- 3. 최종 프롬프트 템플릿 ---
     template = """
@@ -208,10 +224,10 @@ def get_chain():
 
     # 체인을 구성합니다.
     chain = (
-        {"context": RunnableLambda(get_ultimate_context), "question": RunnableLambda(lambda x: x)}
-        | prompt
-        | llm
-        | StrOutputParser()
+            {"context": RunnableLambda(get_ultimate_context), "question": RunnableLambda(lambda x: x)}
+            | prompt
+            | llm
+            | StrOutputParser()
     )
-    
+
     return chain
